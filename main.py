@@ -72,14 +72,16 @@ def onNewImage(data, context):
             return
 
     v1 = get_kube_client(project, zone, cluster)
+    logging.info(f'v1 : {v1}')
     dep = v1.read_namespaced_deployment(deployment, 'default')
+    logging.info(f'dep : {dep}')
     if dep is None:
         logging.error(f'There was no deployment named {deployment}')
         return
 
+    logging.info(f'dep.spec.template.spec.containers : {dep.spec.template.spec.containers}')
     for i, container in enumerate(dep.spec.template.spec.containers):
         if container.name == target_container:
             dep.spec.template.spec.containers[i].image = image
     logging.info(f'Updating to {image}')
     v1.patch_namespaced_deployment(deployment, 'default', dep)
-    return
