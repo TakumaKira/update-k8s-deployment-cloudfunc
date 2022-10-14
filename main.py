@@ -82,3 +82,4 @@ def onNewImage(data, context):
             dep.spec.template.spec.containers[i].image = image
     logging.info(f'Updating to {image}')
     v1.patch_namespaced_deployment(deployment, 'default', dep)
+    return
