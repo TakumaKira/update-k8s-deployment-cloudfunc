@@ -80,9 +80,11 @@ def onNewImage(data, context):
     for i, container in enumerate(dep.spec.template.spec.containers):
         if container.name == target_container:
             dep.spec.template.spec.containers[i].image = image
+
     logging.info(f'Updating to {image}')
+
     try:
         api_response = v1.patch_namespaced_deployment(deployment, 'default', dep)
-        logging.info(api_response)
+        logging.info(f'Update succeeded with response: {api_response}')
     except ApiException as e:
-        logging.info("Exception when calling AppsV1Api->patch_namespaced_deployment: %s\n" % e)
+        logging.error(f'Exception when calling AppsV1Api->patch_namespaced_deployment: {e}')
