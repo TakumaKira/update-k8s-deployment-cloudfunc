@@ -72,9 +72,7 @@ def onNewImage(data, context):
             return
 
     v1 = get_kube_client(project, zone, cluster)
-    logging.info(f'v1 : {v1}')
     dep = v1.read_namespaced_deployment(deployment, 'default')
-    logging.info(f'dep : {dep}')
     if dep is None:
         logging.error(f'There was no deployment named {deployment}')
         return
@@ -84,4 +82,9 @@ def onNewImage(data, context):
         if container.name == target_container:
             dep.spec.template.spec.containers[i].image = image
     logging.info(f'Updating to {image}')
-    v1.patch_namespaced_deployment(deployment, 'default', dep)
+    try:
+        api_response = v1.patch_namespaced_deployment(deployment, 'default', dep)
+        logging.info(api_response)
+    except ApiException as e:
+        logging.info("Exception when calling AppsV1Api->patch_namespaced_deployment: %s\n" % e)
+
