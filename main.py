@@ -77,9 +77,15 @@ def onNewImage(data, context):
         logging.error(f'There was no deployment named {deployment}')
         return
 
+    target_container_found = false
     for i, container in enumerate(dep.spec.template.spec.containers):
         if container.name == target_container:
             dep.spec.template.spec.containers[i].image = image
+            target_container_found = true
+            
+    if target_container_found == false:
+        logging.error(f'There was no container named {target_container}')
+        return
 
     logging.info(f'Updating to {image}')
 
