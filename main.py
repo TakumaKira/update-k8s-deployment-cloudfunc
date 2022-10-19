@@ -77,7 +77,6 @@ def onNewImage(data, context):
         logging.error(f'There was no deployment named {deployment}')
         return
 
-    logging.info(f'dep.spec.template.spec.containers : {dep.spec.template.spec.containers}')
     for i, container in enumerate(dep.spec.template.spec.containers):
         if container.name == target_container:
             dep.spec.template.spec.containers[i].image = image
@@ -87,4 +86,3 @@ def onNewImage(data, context):
         logging.info(api_response)
     except ApiException as e:
         logging.info("Exception when calling AppsV1Api->patch_namespaced_deployment: %s\n" % e)
-
