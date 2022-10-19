@@ -83,7 +83,7 @@ def onNewImage(data, context):
             dep.spec.template.spec.containers[i].image = image
             target_container_found = True
             
-    if target_container_found == false:
+    if target_container_found == False:
         logging.error(f'There was no container named {target_container}')
         return
 
