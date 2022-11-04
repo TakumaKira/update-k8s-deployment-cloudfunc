@@ -25,6 +25,9 @@ def get_kube_client(project, zone, cluster):
     return kubernetes.client.AppsV1Api(client)
 
 def onNewImage(data, context):
+    logging.info(f'data : {data}')
+    logging.info(f'context : {context}')
+    
     import base64
     import json
     import os
