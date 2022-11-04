@@ -66,13 +66,10 @@ def onNewImage(data, context):
 
     image = decoded_data['results']['images'][0]['name']
 
-    if deploy_image == None:
-        logging.info('Environment variable DEPLOYMENT is not set, so no check on image basename.')
-    else:
-        image_basename = image.split('/')[-1].split(':')[0]
-        if image_basename != deploy_image:
-            logging.error(f'{image_basename} is different from {deploy_image}')
-            return
+    image_basename = image.split('/')[-1].split(':')[0]
+    if image_basename != deploy_image:
+        logging.error(f'{image_basename} is different from {deploy_image}')
+        return
 
     v1 = get_kube_client(project, zone, cluster)
     dep = v1.read_namespaced_deployment(deployment, 'default')
