@@ -24,16 +24,16 @@ def get_kube_client(project, zone, cluster):
 
     return kubernetes.client.AppsV1Api(client)
 
-def onNewImage(data, context):
-    logging.info(f'data : {data}')
-    logging.info(f'context : {context}')
-    
+def onNewImage(data, context):    
     import base64
     import json
     import os
     import tempfile
     import logging
 
+    logging.info(f'data : {data}')
+    logging.info(f'context : {context}')
+    
     project = os.environ.get('PROJECT')
     zone = os.environ.get('ZONE')
     cluster = os.environ.get('CLUSTER')
